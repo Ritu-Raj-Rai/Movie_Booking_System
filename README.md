@@ -17,7 +17,7 @@ A high-performance, robust RESTful API backend service for a modern **Movie & Th
 - ⏱️ **Temporary Seat Hold Service**: Thread-safe in-memory seat holding mechanism to lock seats for a user during checkout and prevent concurrent double-booking.
 - 💰 **Dynamic Pricing Engine**: Calculates total booking prices based on base seat price, seat type multipliers, dynamic demand-based surge pricing, discounts, and promo codes.
 - 🔄 **Automated Cleanup Scheduler**: Background `@Scheduled` task that periodically sweeps expired pending bookings and releases held seats back to the pool.
-- 💳 **Payment & Webhook Integration**: Complete workflow for initiating payments, handling webhook notifications, and updating booking status (`PENDING_PAYMENT` ➔ `CONFIRMED` / `EXPIRED`).
+- 📖 **Interactive Swagger / OpenAPI Documentation**: Full OpenAPI 3 integration (`springdoc-openapi-starter-webmvc-ui`) with JWT Bearer Token authorization support at `http://localhost:8080/swagger-ui.html`.
 
 ---
 
