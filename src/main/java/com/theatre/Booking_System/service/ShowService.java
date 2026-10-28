@@ -31,6 +31,25 @@ public class ShowService {
         return showRepository.save(show);
     }
 
+    public Show updateShow(Long id, Show showDetails) {
+        Show existing = showRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Show not found with id: " + id));
+
+        if (showDetails.getShowTime() != null) existing.setShowTime(showDetails.getShowTime());
+        if (showDetails.getPrice() != null) existing.setPrice(showDetails.getPrice());
+        if (showDetails.getMovie() != null) existing.setMovie(showDetails.getMovie());
+        if (showDetails.getScreen() != null) existing.setScreen(showDetails.getScreen());
+
+        return showRepository.save(existing);
+    }
+
+    public void deleteShow(Long id) {
+        if (!showRepository.existsById(id)) {
+            throw new RuntimeException("Show not found with id: " + id);
+        }
+        showRepository.deleteById(id);
+    }
+
     private ShowResponseDTO mapToDTO(Show show) {
         return ShowResponseDTO.builder()
                 .id(show.getId())

@@ -56,6 +56,10 @@ public class SecurityConfig {
                                 "/api/seats", "/api/seats/**",
                                 "/api/screens", "/api/screens/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/movies/**", "/api/theatres/**", "/api/screens/**", "/api/shows/**", "/api/seats/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/movies/**", "/api/theatres/**", "/api/screens/**", "/api/shows/**", "/api/seats/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/movies/**", "/api/theatres/**", "/api/screens/**", "/api/shows/**", "/api/seats/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

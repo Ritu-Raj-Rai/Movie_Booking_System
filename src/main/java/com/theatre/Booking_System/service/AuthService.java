@@ -53,6 +53,39 @@ public class AuthService {
                 .build();
     }
 
+    @Transactional
+    public AuthResponseDTO registerAdmin(com.theatre.Booking_System.dto.AdminSignupRequestDTO request) {
+        String defaultSecret = "ADMIN_SECRET_KEY";
+        if (request.getAdminSecretKey() == null || !request.getAdminSecretKey().equals(defaultSecret)) {
+            throw new RuntimeException("Invalid Admin Secret Key");
+        }
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered: " + request.getEmail());
+        }
+
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(User.Role.ADMIN)
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getEmail());
+        String token = jwtUtils.generateToken(userDetails);
+
+        return AuthResponseDTO.builder()
+                .token(token)
+                .type("Bearer")
+                .id(savedUser.getId())
+                .name(savedUser.getName())
+                .email(savedUser.getEmail())
+                .role(savedUser.getRole().name())
+                .build();
+    }
+
     public AuthResponseDTO login(AuthRequestDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())

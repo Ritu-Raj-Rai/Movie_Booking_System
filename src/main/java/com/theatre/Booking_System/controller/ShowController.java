@@ -25,4 +25,15 @@ public class ShowController {
     public ResponseEntity<Show> createShow(@RequestBody Show show) {
         return ResponseEntity.ok(showService.createShow(show));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Show> updateShow(@PathVariable Long id, @RequestBody Show showDetails) {
+        return ResponseEntity.ok(showService.updateShow(id, showDetails));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteShow(@PathVariable Long id) {
+        showService.deleteShow(id);
+        return ResponseEntity.ok("Show deleted successfully");
+    }
 }

@@ -1,5 +1,6 @@
 package com.theatre.Booking_System.controller;
 
+import com.theatre.Booking_System.dto.BulkSeatCreateDTO;
 import com.theatre.Booking_System.model.Seat;
 import com.theatre.Booking_System.service.SeatService;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,16 @@ public class SeatController {
     @PostMapping
     public ResponseEntity<Seat> createSeat(@RequestBody Seat seat) {
         return ResponseEntity.ok(seatService.createSeat(seat));
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<Seat>> createBulkSeats(@RequestBody BulkSeatCreateDTO request) {
+        return ResponseEntity.ok(seatService.createBulkSeats(request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSeat(@PathVariable Long id) {
+        seatService.deleteSeat(id);
+        return ResponseEntity.ok("Seat deleted successfully");
     }
 }

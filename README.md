@@ -62,22 +62,35 @@ Booking_System/
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
 | `POST` | `/api/auth/signup` | Register a new user account | Public |
+| `POST` | `/api/auth/register-admin` | Register an Admin account (requires Admin Secret Key) | Public |
 | `POST` | `/api/auth/login` | Authenticate & receive JWT Token | Public |
 
-### 🎬 Movies & Shows
+### 🎬 Movies & Shows (User Browsing)
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/movies` | List all available movies | Public |
 | `GET` | `/api/movies/{id}` | Get movie details | Public |
-| `GET` | `/api/shows` | Search shows by movie, theatre, date | Public |
-| `GET` | `/api/shows/{id}/seats` | Fetch real-time seat availability for a show | Public |
+| `GET` | `/api/theatres` | List all theatres | Public |
+| `GET` | `/api/shows/movie/{movieId}` | Get shows for a specific movie | Public |
+| `GET` | `/api/seats/screen/{screenId}` | Fetch seat map for a screen | Public |
+
+### 🛠️ Admin Management & Catalog CRUD
+| Method | Endpoint | Description | Access |
+| :--- | :--- | :--- | :--- |
+| `POST` / `PUT` / `DELETE` | `/api/movies` | Create, Update, Delete Movies | Admin (`ROLE_ADMIN`) |
+| `POST` / `PUT` / `DELETE` | `/api/theatres` | Create, Update, Delete Theatres | Admin (`ROLE_ADMIN`) |
+| `POST` / `PUT` / `DELETE` | `/api/screens` | Create, Update, Delete Screens | Admin (`ROLE_ADMIN`) |
+| `POST` / `PUT` / `DELETE` | `/api/shows` | Create, Update, Delete Shows | Admin (`ROLE_ADMIN`) |
+| `POST` / `DELETE` | `/api/seats` | Create Single Seat or Delete Seat | Admin (`ROLE_ADMIN`) |
+| `POST` | `/api/seats/bulk` | Bulk generate seats for a Screen | Admin (`ROLE_ADMIN`) |
+| `GET` | `/api/admin/dashboard` | System overview, counts, and revenue analytics | Admin (`ROLE_ADMIN`) |
 
 ### 🎟️ Bookings & Payments
 | Method | Endpoint | Description | Access |
 | :--- | :--- | :--- | :--- |
 | `POST` | `/api/bookings/hold` | Hold seats temporarily (10-min hold timer) | Authenticated |
 | `POST` | `/api/bookings` | Create pending booking from held seats | Authenticated |
-| `GET` | `/api/bookings/my-bookings` | Fetch user booking history | Authenticated |
+| `GET` | `/api/bookings/user/{userId}` | Fetch user booking history | Authenticated |
 | `POST` | `/api/payments/initiate` | Initiate payment for a pending booking | Authenticated |
 | `POST` | `/api/payments/webhook` | Process payment gateway webhook callback | Public |
 

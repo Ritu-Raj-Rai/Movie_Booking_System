@@ -17,4 +17,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Optional<Booking> findByPaymentId(String paymentId);
 
     List<Booking> findByStatusAndExpiresAtBefore(BookingStatus status, LocalDateTime now);
+
+    @org.springframework.data.jpa.repository.Query("SELECT COALESCE(SUM(b.totalAmount), 0) FROM Booking b WHERE b.status = com.theatre.Booking_System.model.Booking.BookingStatus.CONFIRMED")
+    java.math.BigDecimal calculateTotalRevenue();
 }

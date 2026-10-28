@@ -33,6 +33,28 @@ public class MovieService {
         return mapToDTO(saved);
     }
 
+    public MovieResponseDTO updateMovie(Long id, Movie movieDetails) {
+        Movie existingMovie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie not found with id: " + id));
+        
+        if (movieDetails.getTitle() != null) existingMovie.setTitle(movieDetails.getTitle());
+        if (movieDetails.getDescription() != null) existingMovie.setDescription(movieDetails.getDescription());
+        if (movieDetails.getGenre() != null) existingMovie.setGenre(movieDetails.getGenre());
+        if (movieDetails.getLanguage() != null) existingMovie.setLanguage(movieDetails.getLanguage());
+        if (movieDetails.getDurationMinutes() > 0) existingMovie.setDurationMinutes(movieDetails.getDurationMinutes());
+        if (movieDetails.getReleaseDate() != null) existingMovie.setReleaseDate(movieDetails.getReleaseDate());
+
+        Movie updated = movieRepository.save(existingMovie);
+        return mapToDTO(updated);
+    }
+
+    public void deleteMovie(Long id) {
+        if (!movieRepository.existsById(id)) {
+            throw new RuntimeException("Movie not found with id: " + id);
+        }
+        movieRepository.deleteById(id);
+    }
+
     private MovieResponseDTO mapToDTO(Movie movie) {
         return MovieResponseDTO.builder()
                 .id(movie.getId())

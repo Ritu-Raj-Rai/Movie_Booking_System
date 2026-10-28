@@ -25,4 +25,21 @@ public class ScreenService {
     public Screen createScreen(Screen screen) {
         return screenRepository.save(screen);
     }
+
+    public Screen updateScreen(Long id, Screen screenDetails) {
+        Screen existing = screenRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Screen not found with id: " + id));
+
+        if (screenDetails.getScreenNumber() != null) existing.setScreenNumber(screenDetails.getScreenNumber());
+        if (screenDetails.getTotalSeats() != null) existing.setTotalSeats(screenDetails.getTotalSeats());
+
+        return screenRepository.save(existing);
+    }
+
+    public void deleteScreen(Long id) {
+        if (!screenRepository.existsById(id)) {
+            throw new RuntimeException("Screen not found with id: " + id);
+        }
+        screenRepository.deleteById(id);
+    }
 }
